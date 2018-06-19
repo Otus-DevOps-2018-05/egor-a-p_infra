@@ -5,9 +5,9 @@ egor-a-p Infra repository
 
 ### Конфигурация
 
-bastion_IP = 35.198.167.169
+bastion_IP = 35.206.137.210
 
-someinternalhost_IP = 10.156.0.3 
+someinternalhost_IP = 10.132.0.3
 
 ### Подключения к someinternalhost в одну команду:
 
