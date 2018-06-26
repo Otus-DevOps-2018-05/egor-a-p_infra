@@ -1,19 +1,19 @@
 {
   "variables": {
-    "gcp_machine_type": "f1-micro",
-    "gcp_project_id": null,
-    "gcp_source_image_family": null
+    "project_id": null,
+    "source_image_family": null,
+    "machine_type": "f1-micro"
   },
   "builders": [
     {
       "type": "googlecompute",
-      "project_id": "{{user `gcp_project_id`}}",
+      "project_id": "{{user `project_id`}}",
       "image_name": "reddit-base-{{timestamp}}",
       "image_family": "reddit-base",
-      "source_image_family": "{{user `gcp_source_image_family`}}",
+      "source_image_family": "{{user `source_image_family`}}",
       "zone": "europe-west1-b",
       "ssh_username": "appuser",
-      "machine_type": "{{user `gcp_machine_type`}}",
+      "machine_type": "{{user `machine_type`}}",
       "disk_size": 12,
       "disk_type": "pd-standard",
       "image_description": "reddit base image",
