@@ -31,3 +31,31 @@ EOF
 ```
 Подключиться по алиасу: ```ssh someinternalhost```
 
+## Домашнее задание 4
+
+### Конфигурация
+
+testapp_IP = 35.205.123.228
+
+testapp_port = 9292
+
+Создание инстанса со скриптом:
+
+```
+gcloud compute instances create reddit-app\
+  --boot-disk-size=10GB \
+  --image-family ubuntu-1604-lts \
+  --image-project=ubuntu-os-cloud \
+  --machine-type=g1-small \
+  --tags puma-server \
+  --metadata-from-file startup-script=startup_hw4.sh \
+  --restart-on-failure
+```  
+
+Добавление правила в firewall:
+
+```
+gcloud compute firewall-rules create default-puma-server \
+  --target-tags=puma-server \
+  --allow tcp:9292
+```
