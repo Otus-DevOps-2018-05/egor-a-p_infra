@@ -5,11 +5,14 @@ provider "google" {
 }
 
 resource "google_compute_instance" "app" {
-  name         = "reddit-app"
+  name         = "reddit-app${count.index}"
   machine_type = "g1-small"
   zone         = "${var.zone}"
+  count        = "${var.count}"
 
-  tags = ["reddit-app"]
+  tags = [
+    "reddit-app",
+  ]
 
   boot_disk {
     initialize_params {
@@ -51,10 +54,17 @@ resource "google_compute_firewall" "firewall_puma" {
 
   allow {
     protocol = "tcp"
-    ports    = ["9292"]
+
+    ports = [
+      "9292",
+    ]
   }
 
-  source_ranges = ["0.0.0.0/0"]
+  source_ranges = [
+    "0.0.0.0/0",
+  ]
 
-  target_tags = ["reddit-app"]
+  target_tags = [
+    "reddit-app",
+  ]
 }
