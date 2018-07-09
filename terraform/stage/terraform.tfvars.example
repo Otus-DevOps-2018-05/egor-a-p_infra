@@ -1,0 +1,7 @@
+project = "project_id"
+public_key_path = "~/.ssh/appuser.pub"
+private_key_path = "~/.ssh/appuser"
+disk_image = "reddit-base"
+prod_source_ranges = ["0.0.0.0/0"]
+count = 1
+enable_app_deploy = "true"
