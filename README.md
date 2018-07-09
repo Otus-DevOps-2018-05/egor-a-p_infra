@@ -60,7 +60,7 @@ gcloud compute firewall-rules create default-puma-server \
   --allow tcp:9292
 ```
 
-## Домашнее задание 4
+## Домашнее задание 5
 
 Что сделано:
 
@@ -68,7 +68,7 @@ gcloud compute firewall-rules create default-puma-server \
  - создание packer-ом образа reddit-full;
  - скрипт создания виртуальной машины на базе образа reddit-full.
  
- ## Домашнее задание 5
+ ## Домашнее задание 6
  
 Что сделано:
  
