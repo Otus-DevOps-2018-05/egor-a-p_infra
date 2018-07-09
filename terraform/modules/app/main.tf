@@ -6,7 +6,7 @@ resource "google_compute_instance" "app" {
   zone = "${var.zone}"
 
   tags = [
-    "reddit-app"
+    "reddit-app",
   ]
 
   boot_disk {
@@ -40,10 +40,10 @@ resource "null_resource" "app_deploy" {
   }
 
   connection {
-    host = "${local.app_external_ip}"
-    type = "ssh"
-    user = "appuser"
-    agent = false
+    host        = "${local.app_external_ip}"
+    type        = "ssh"
+    user        = "appuser"
+    agent       = false
     private_key = "${file(var.private_key_path)}"
   }
 
@@ -57,7 +57,6 @@ resource "null_resource" "app_deploy" {
   }
 }
 
-
 data "template_file" "puma" {
   template = "${file("${path.module}/files/puma.service")}"
 
@@ -69,4 +68,3 @@ data "template_file" "puma" {
 resource "google_compute_address" "app_ip" {
   name = "reddit-app-ip"
 }
-

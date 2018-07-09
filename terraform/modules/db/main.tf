@@ -6,7 +6,8 @@ resource "google_compute_instance" "db" {
   zone = "${var.zone}"
 
   tags = [
-    "reddit-db"]
+    "reddit-db",
+  ]
 
   boot_disk {
     initialize_params {
@@ -25,7 +26,6 @@ resource "google_compute_instance" "db" {
   }
 }
 
-
 locals {
   db_external_ip = "${google_compute_instance.db.network_interface.0.access_config.0.assigned_nat_ip}"
 }
@@ -38,10 +38,10 @@ resource "null_resource" "db_deploy" {
   }
 
   connection {
-    host = "${local.db_external_ip}"
-    type = "ssh"
-    user = "appuser"
-    agent = false
+    host        = "${local.db_external_ip}"
+    type        = "ssh"
+    user        = "appuser"
+    agent       = false
     private_key = "${file(var.private_key_path)}"
   }
 

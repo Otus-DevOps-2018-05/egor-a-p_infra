@@ -13,7 +13,8 @@ module "storage-bucket" {
 
   name = [
     "storage-bucket-infra-prod",
-    "storage-bucket-infra-stage"]
+    "storage-bucket-infra-stage",
+  ]
 }
 
 output storage-bucket_url {

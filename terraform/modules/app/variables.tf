@@ -1,6 +1,6 @@
 variable app_disk_image {
   description = "Disk image for reddit app"
-  default = "reddit-app-base"
+  default     = "reddit-app-base"
 }
 
 variable zone {
@@ -21,7 +21,7 @@ variable db_address {
 
 variable machine_type {
   description = "Type of google instance"
-  default = "g1-small"
+  default     = "g1-small"
 }
 
 variable enable_app_deploy {

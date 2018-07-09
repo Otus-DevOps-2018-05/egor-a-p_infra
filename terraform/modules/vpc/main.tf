@@ -5,15 +5,18 @@ resource "google_compute_firewall" "firewall_ssh" {
 
   allow {
     protocol = "tcp"
+
     ports = [
-      "22"]
+      "22",
+    ]
   }
 
   source_ranges = "${var.source_ranges}"
 
   target_tags = [
     "reddit-app",
-    "reddit-db"]
+    "reddit-db",
+  ]
 }
 
 resource "google_compute_firewall" "firewall_puma" {
@@ -25,14 +28,17 @@ resource "google_compute_firewall" "firewall_puma" {
     protocol = "tcp"
 
     ports = [
-      "9292"]
+      "9292",
+    ]
   }
 
   source_ranges = [
-    "0.0.0.0/0"]
+    "0.0.0.0/0",
+  ]
 
   target_tags = [
-    "reddit-app"]
+    "reddit-app",
+  ]
 }
 
 resource "google_compute_firewall" "firewall_mongo" {
@@ -42,13 +48,17 @@ resource "google_compute_firewall" "firewall_mongo" {
 
   allow {
     protocol = "tcp"
+
     ports = [
-      "27017"]
+      "27017",
+    ]
   }
 
   target_tags = [
-    "reddit-db"]
+    "reddit-db",
+  ]
 
   source_ranges = [
-    "0.0.0.0/0"]
+    "0.0.0.0/0",
+  ]
 }
