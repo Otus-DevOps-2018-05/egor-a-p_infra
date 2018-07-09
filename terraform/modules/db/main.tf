@@ -1,7 +1,7 @@
 resource "google_compute_instance" "db" {
   name = "reddit-db"
 
-  machine_type = "g1-small"
+  machine_type = "${var.machine_type}"
 
   zone = "${var.zone}"
 
@@ -13,30 +13,39 @@ resource "google_compute_instance" "db" {
       image = "${var.db_disk_image}"
     }
   }
+
   network_interface {
     network = "default"
 
     access_config = {}
   }
+
   metadata {
     ssh-keys = "appuser:${file(var.public_key_path)}"
   }
 }
 
-resource "google_compute_firewall" "firewall_mongo" {
-  name = "allow-mongo-default"
 
-  network = "default"
+locals {
+  db_external_ip = "${google_compute_instance.db.network_interface.0.access_config.0.assigned_nat_ip}"
+}
 
-  allow {
-    protocol = "tcp"
-    ports = [
-      "27017"]
+resource "null_resource" "db_deploy" {
+  count = "${var.enable_app_deploy == "true" ? 1 : 0}"
+
+  triggers {
+    app_instance_id = "${google_compute_instance.db.id}"
   }
 
-  target_tags = [
-    "reddit-db"]
+  connection {
+    host = "${local.db_external_ip}"
+    type = "ssh"
+    user = "appuser"
+    agent = false
+    private_key = "${file(var.private_key_path)}"
+  }
 
-  source_tags = [
-    "reddit-app"]
+  provisioner "remote-exec" {
+    script = "${path.module}/files/config.sh"
+  }
 }

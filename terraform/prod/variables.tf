@@ -39,6 +39,11 @@ variable db_disk_image {
   default = "reddit-db-base"
 }
 
+variable enable_app_deploy {
+  description = "Deploy reddit application"
+  default = "false"
+}
+
 variable prod_source_ranges {
   type = "list"
   description = "Allowed IP addresses"

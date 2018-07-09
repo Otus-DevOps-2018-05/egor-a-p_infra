@@ -38,3 +38,8 @@ variable db_disk_image {
   description = "Disk image for reddit db"
   default = "reddit-db-base"
 }
+
+variable enable_app_deploy {
+  description = "Deploy reddit application"
+  default = "false"
+}
