@@ -3,6 +3,8 @@
 *.iml
 out
 target
+
+### Packer
 variables.json
 
 ### Terraform
@@ -11,3 +13,7 @@ variables.json
 *.tfstate.backup
 *.tfvars
 .terraform/
+
+
+### Ansible
+*.retry
