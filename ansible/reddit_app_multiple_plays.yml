@@ -11,11 +11,10 @@
         src: templates/mongod.conf.j2
         dest: /etc/mongod.conf
         mode: 0644
-      notify: Reload mongodb
+      notify: Restart mongodb
 
   handlers:
-    - name: Reload mongodb
-      become: true
+    - name: Restart mongodb
       systemd:
         name: mongod
         state: restarted
@@ -40,16 +39,13 @@
         group: appuser
 
     - name: Enable puma
-      become: true
       systemd:
         name: puma
         enabled: yes
-      tags: app-tag
-      notify: Reload puma
-
+      notify: Restart puma
 
   handlers:
-    - name: Reload puma
+    - name: Restart puma
       systemd:
         name: puma
         state: restarted
@@ -68,10 +64,10 @@
       bundler:
         state: present
         chdir: /home/appuser/reddit
-      notify: Reload puma
+      notify: Restart puma
 
   handlers:
-    - name: Reload puma
+    - name: Restart puma
       become: true
       systemd:
         name: puma
