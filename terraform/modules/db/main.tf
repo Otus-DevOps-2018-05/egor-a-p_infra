@@ -6,7 +6,7 @@ resource "google_compute_instance" "db" {
   zone = "${var.zone}"
 
   tags = [
-    "reddit-db",
+    "db",
   ]
 
   boot_disk {
