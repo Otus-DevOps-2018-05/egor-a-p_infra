@@ -7,7 +7,7 @@
         dest: /home/appuser/reddit
         version: monolith
 
-    - name: bundle install
+    - name: Bundle install
       bundler:
         state: present
         chdir: /home/appuser/reddit
