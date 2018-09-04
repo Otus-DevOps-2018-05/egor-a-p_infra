@@ -9,7 +9,7 @@
   copy:
     src: puma.service
     dest: /etc/systemd/system/puma.service
-    notify: Restart puma
+  notify: Restart puma
 
 - name: Add config for DB connection
   template:
