@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Otus-DevOps-2018-05/egor-a-p.svg?branch=master)](https://travis-ci.org/Otus-DevOps-2018-05/egor-a-p_infra)
+
 # egor-a-p_infra
 egor-a-p Infra repository
 
