@@ -2,8 +2,39 @@ dist: trusty
 sudo: required
 language: bash
 before_install:
-- curl https://raw.githubusercontent.com/express42/otus-homeworks/2018-05/run.sh |
-  bash
+  - curl https://raw.githubusercontent.com/express42/otus-homeworks/2018-05/run.sh | bash
+install:
+  - echo "Install terraform..."
+  - sudo curl -LO https://releases.hashicorp.com/terraform/0.11.8/terraform_0.11.8_linux_amd64.zip
+  - sudo unzip -o terraform*.zip -d /usr/local/bin/
+
+  - echo "Install tflint..."
+  - sudo curl -LO https://github.com/wata727/tflint/releases/download/v0.7.2/tflint_linux_amd64.zip
+  - sudo unzip -o tflint*.zip -d /usr/local/bin/
+
+  - echo "Install ansible and ansible-lint..."
+  - sudo pip install -r requirements.txt
+
+  - echo "Install packer..."
+  - sudo curl -LO https://releases.hashicorp.com/packer/1.2.5/packer_1.2.5_linux_amd64.zip
+  - sudo unzip -o packer*.zip -d /usr/local/bin/
+script:
+  - touch ~/.ssh/appuser.pub && touch ~/.ssh/appuser
+
+  - cd terraform/prod &&
+    terraform init -backend=false && terraform validate -var-file=terraform.tfvars.example &&
+    tflint --error-with-issues --var-file=terraform.tfvars.example
+
+  - cd terraform/stage &&
+    terraform init -backend=false && terraform validate -var-file=terraform.tfvars.example &&
+    tflint --error-with-issues --var-file=terraform.tfvars.example
+
+  - cd ../../ansible ansible-lint --exclude=roles/jdauphant.nginx playbooks/*
+
+  - packer validate -var-file=packer/variables.json.example packer/ubuntu16.json
+  - packer validate -var-file=packer/variables.json.example packer/immutable.json
+  - packer validate -var-file=packer/variables.json.example packer/app.json
+  - packer validate -var-file=packer/variables.json.example packer/db.json
 notifications:
   slack:
     rooms:
