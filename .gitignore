@@ -14,8 +14,15 @@ variables.json
 *.tfvars
 .terraform/
 
-
 ### Ansible
 *.retry
 jdauphant.nginx/
 vault.key
+
+### Vagrant & Molecule
+.vagrant/
+*.log
+*.pyc
+.molecule
+.cache
+.pytest_cache
