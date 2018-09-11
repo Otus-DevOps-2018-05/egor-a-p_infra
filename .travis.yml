@@ -23,15 +23,14 @@ script:
 
   - cd terraform/prod &&
     terraform init -backend=false && terraform validate -var-file=terraform.tfvars.example &&
-    tflint --error-with-issues --var-file=terraform.tfvars.example
+    tflint --error-with-issues --var-file=terraform.tfvars.example && cd ../../
 
-  - cd ../stage &&
+  - cd terraform/stage &&
     terraform init -backend=false && terraform validate -var-file=terraform.tfvars.example &&
-    tflint --error-with-issues --var-file=terraform.tfvars.example
+    tflint --error-with-issues --var-file=terraform.tfvars.example && cd ../../
 
-  - cd ../../ansible ansible-lint --exclude=roles/jdauphant.nginx playbooks/*
+  - cd ansible && ansible-lint --exclude=roles/jdauphant.nginx playbooks/* && cd ../
 
-  - cd ../../
   - packer validate -var-file=packer/variables.json.example packer/ubuntu16.json
   - packer validate -var-file=packer/variables.json.example packer/immutable.json
   - packer validate -var-file=packer/variables.json.example packer/app.json
