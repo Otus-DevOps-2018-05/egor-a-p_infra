@@ -25,17 +25,17 @@
   "provisioners": [
     {
       "type": "shell",
-      "script": "files/reddit_install.sh",
+      "script": "packer/files/reddit_install.sh",
       "execute_command": "{{.Path}}"
     },
     {
       "type": "file",
-      "source": "files/reddit.service",
+      "source": "packer/files/reddit.service",
       "destination": "/tmp/reddit.service"
     },
     {
       "type": "shell",
-      "script": "files/reddit_enable.sh",
+      "script": "packer/files/reddit_enable.sh",
       "execute_command": "sudo {{.Path}}"
     }
   ]
