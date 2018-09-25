@@ -14,8 +14,8 @@ resource "google_compute_firewall" "firewall_ssh" {
   source_ranges = "${var.source_ranges}"
 
   target_tags = [
-    "reddit-app",
-    "reddit-db",
+    "app",
+    "db",
   ]
 }
 
@@ -37,7 +37,7 @@ resource "google_compute_firewall" "firewall_puma" {
   ]
 
   target_tags = [
-    "reddit-app",
+    "app",
   ]
 }
 
@@ -55,7 +55,7 @@ resource "google_compute_firewall" "firewall_mongo" {
   }
 
   target_tags = [
-    "reddit-db",
+    "db",
   ]
 
   source_ranges = [

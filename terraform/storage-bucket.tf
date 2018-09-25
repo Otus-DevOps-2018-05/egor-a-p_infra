@@ -12,8 +12,7 @@ module "storage-bucket" {
   version = "0.1.1"
 
   name = [
-    "storage-bucket-infra-prod",
-    "storage-bucket-infra-stage",
+    "storage-bucket-infra-terraform"
   ]
 }
 
