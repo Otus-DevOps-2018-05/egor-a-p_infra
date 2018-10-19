@@ -2,40 +2,31 @@ dist: trusty
 sudo: required
 language: bash
 before_install:
-  - curl https://raw.githubusercontent.com/express42/otus-homeworks/2018-05/run.sh | bash
+- curl https://raw.githubusercontent.com/express42/otus-homeworks/2018-05/run.sh |
+  bash
 install:
-  - echo "Install terraform..."
-  - sudo curl -LO https://releases.hashicorp.com/terraform/0.11.8/terraform_0.11.8_linux_amd64.zip
-  - sudo unzip -o terraform*.zip -d /usr/local/bin/
-
-  - echo "Install tflint..."
-  - sudo curl -LO https://github.com/wata727/tflint/releases/download/v0.7.2/tflint_linux_amd64.zip
-  - sudo unzip -o tflint*.zip -d /usr/local/bin/
-
-  - echo "Install ansible and ansible-lint..."
-  - sudo pip install -r ansible/requirements.txt
-
-  - echo "Install packer..."
-  - sudo curl -LO https://releases.hashicorp.com/packer/1.2.5/packer_1.2.5_linux_amd64.zip
-  - sudo unzip -o packer*.zip -d /usr/local/bin/
+- echo "Install terraform..."
+- sudo curl -LO https://releases.hashicorp.com/terraform/0.11.8/terraform_0.11.8_linux_amd64.zip
+- sudo unzip -o terraform*.zip -d /usr/local/bin/
+- echo "Install tflint..."
+- sudo curl -LO https://github.com/wata727/tflint/releases/download/v0.7.2/tflint_linux_amd64.zip
+- sudo unzip -o tflint*.zip -d /usr/local/bin/
+- echo "Install ansible and ansible-lint..."
+- sudo pip install -r ansible/requirements.txt
+- echo "Install packer..."
+- sudo curl -LO https://releases.hashicorp.com/packer/1.2.5/packer_1.2.5_linux_amd64.zip
+- sudo unzip -o packer*.zip -d /usr/local/bin/
 script:
-  - touch ~/.ssh/appuser.pub && touch ~/.ssh/appuser
-
-  - cd terraform/prod &&
-    terraform init -backend=false && terraform validate -var-file=terraform.tfvars.example &&
-    tflint --error-with-issues --var-file=terraform.tfvars.example && cd ../../
-
-  - cd terraform/stage &&
-    terraform init -backend=false && terraform validate -var-file=terraform.tfvars.example &&
-    tflint --error-with-issues --var-file=terraform.tfvars.example && cd ../../
-
-  - cd ansible && ansible-lint --exclude=roles/jdauphant.nginx playbooks/* && cd ../
-
-  - packer validate -var-file=packer/variables.json.example packer/ubuntu16.json
-  - packer validate -var-file=packer/variables.json.example packer/immutable.json
-  - packer validate -var-file=packer/variables.json.example packer/app.json
-  - packer validate -var-file=packer/variables.json.example packer/db.json
+- touch ~/.ssh/appuser.pub && touch ~/.ssh/appuser
+- cd terraform/prod && terraform init -backend=false && terraform validate -var-file=terraform.tfvars.example
+  && tflint --error-with-issues --var-file=terraform.tfvars.example && cd ../../
+- cd terraform/stage && terraform init -backend=false && terraform validate -var-file=terraform.tfvars.example
+  && tflint --error-with-issues --var-file=terraform.tfvars.example && cd ../../
+- cd ansible && ansible-lint --exclude=roles/jdauphant.nginx playbooks/* && cd ../
+- packer validate -var-file=packer/variables.json.example packer/ubuntu16.json
+- packer validate -var-file=packer/variables.json.example packer/immutable.json
+- packer validate -var-file=packer/variables.json.example packer/app.json
+- packer validate -var-file=packer/variables.json.example packer/db.json
 notifications:
   slack:
-    rooms:
-      secure: mrkIfit9LJaxaHsCfkGE9djpRceh6+uiSdkkntEnQjxtL8HqBEx64v85lxZd73AkA1IZAGk82nkjJy0pF17gw1zUgTI8Uw6mDRRIEoifnF2RtE0J6oqo9hB3AUBwUkIA7wTlbS7QDCra00UYxrk1v+x6l+W0rtn46Zhi+Un5gDnRW9PiNsquAT6/pOXZ8SrATUOzE7XekcUcG7yVf2JMS6UxpMELKQgWT43FdpEB3qfKY2+/r3QgnAkWCdebLL2aEJi5LimxpAVXgTKdGb5m/0+N7G/rgEqDSnFJZKx1xNI6leRfrmXXqN06UY1ML6k+pPJkcySr5DZ4XxU73oUvtZc8/BWIO9xIRU1EZ5S4nRCC8ZUrAdkpSjmpO/kTudOH0hGmlQzSXfJjgEQf6sGhTfV+giO1i7K3f2AmRH+iOcSOeZ/adFlU9tDM6HjhD56F4iKU3TWfOMHwMtVtGC10eGhCToWrTUnSZaVJTuMgXA/R+bAuCgFHpcMHycfOxFj6zaPIuW1T37ruFUhoKc73+JlMbe9O6Vdo5NRypPqlNdhAV8C6xy6TdWg5dr5qrwNrMC4t3J7P/2aIz4majw8hcIiGAOtcxfU1p2k+pHVmbxd4W3YVs6gxMYQlQW9fs79sqRmCaKmjTniPb2Su/ZIeexrnQpvLR5/2hYO1RXVTllM=
+    secure: BZ1xDwIlesWcDHBDxmPUJrmSI7tfP17gSEPwKdRrVOZbx5tTmhmrrx6/vTSUGh8qpXXUzqDO4h/sRHWeLqILVVmaWjdBmZecwy/V9MEoKEIlciXX43+aHQhI95oNX37ivXCW4Lh9nfK1OubxPe4w0wDGVZbhJ3gkLuvDdTzU83AvfQvO3u+TUtBBSvo4Dyq/C78ne5JsKgaxtJA3PiW8Zw2ay2u2oav4ki1KdObbvs2crc3sn/Rs6MFsuV4kP2+6vmSkjNCvpv+aix2h4YvJcoLnxRoEnEd6bfoKLtGwZp1VTDsYO7+G80kS7QbuYG+W1LTKrRKzOaFtTY/qL087XZmByXbGvQ3wdRNyqPCpMtN8eymZYj3kjtTiclkCNpc5H2mmPH3Psi9lChOvjBdqmnOY6XUYtdNBQ1K6VCManRD8D7eBZrVgKJnb2PnzMnHRS1IA22O5SNY61o6T7x0MeT8DjQ92Hhfg4Glk+bm7lnGLTHyVrAZ7pYqhIJYlYgMUlNmakICniIUTe3O+XmNbcFuI8zP33FdieEBEsK5FOhnwgttxjIy+4CV01REQOz1TyIu+mPA/I0eSu1JEc9rcyqulYY4R1gE/YiCjmUkSZHiduFtScxWXOx8K/f/HPzWbhR0Otv5J6a6GgQZC2Le90JVnjYmGALTMnk36kpdwY3A=
